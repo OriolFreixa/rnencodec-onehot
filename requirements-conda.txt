@@ -1,0 +1,24 @@
+
+# Hugging Face + friends (pure python)
+huggingface-hub
+datasets
+transformers
+safetensors
+filelock
+fsspec[http]
+regex
+networkx
+click
+
+# Audio python stack (pure python; compiled deps are provided by conda above)
+soundfile
+audioread
+librosa>=0.10
+lazy_loader
+soxr
+resampy
+
+# realtime audio
+sounddevice==0.5.2
+
+rtpysynth[ui] @ git+https://github.com/lonce/RTPySynth@v0.1.4

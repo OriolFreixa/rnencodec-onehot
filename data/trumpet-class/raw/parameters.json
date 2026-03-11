@@ -1,0 +1,21 @@
+{
+  "parameter_1": {
+    "name": "class",
+    "type": "class",
+    "classes": [
+      "C",
+      "C#",
+      "D",
+      "D#",
+      "E",
+      "F",
+      "F#",
+      "G",
+      "G#",
+      "A",
+      "A#",
+      "B"
+    ],
+    "description": "Nearest note class from input pitch (12-TET)."
+  }
+}

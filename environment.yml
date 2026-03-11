@@ -1,0 +1,55 @@
+name: rnencodec
+channels:
+  - pytorch
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+
+  # Core scientific stack (compiled)
+  - numpy
+  - scipy
+  - pandas
+  - matplotlib
+
+  # Notebooks / UI
+  - jupyterlab
+  - ipython
+  - ipykernel
+  - ipywidgets
+  - tensorboard
+
+  # Utilities + git
+  - tqdm
+  - requests
+  - pyyaml
+  - packaging
+  - git
+  - git-lfs
+
+  # Native audio dependencies
+  - ffmpeg
+  - libsndfile
+  - portaudio
+
+
+  # Numpy-coupled compiled deps (keep in conda)
+  - numba
+  - llvmlite
+  - scikit-learn
+  - joblib
+  - msgpack-python
+  - pooch
+
+# PyTorch CPU via conda (stable on Windows)
+  - pytorch
+  - torchvision
+  - torchaudio
+  - cpuonly
+  
+  
+variables:
+  PYTHONNOUSERSITE: "1"
+  PYTHONIOENCODING: "utf-8"
+  PYTHONUTF8: "1"
+  LANG: "en_US.UTF-8"
