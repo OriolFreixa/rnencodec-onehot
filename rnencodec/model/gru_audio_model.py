@@ -6,6 +6,7 @@ from typing import List, Optional, Literal
 
 CascadeMode = Literal["hard", "soft"]
 HardSampleMode = Literal["argmax","gumbel","sample"]
+ConditioningMode = Literal["concat", "film"]
 
 @dataclass
 class GRUModelConfig:
@@ -22,6 +23,8 @@ class GRUModelConfig:
     
     inp_proportion: int = 1
     cond_proportion: int = 1
+    # conditioning injection strategy at GRU input
+    conditioning_mode: ConditioningMode = "concat"
 
     # training-time knobs you already have
     gumbel_tau_start: float = 1.0
@@ -53,6 +56,10 @@ class RNN(nn.Module):
        self.n_q = config.n_q
        self.codebook_size = config.codebook_size
        self.num_layers = config.num_layers
+       self.conditioning_mode = config.conditioning_mode
+
+       if self.conditioning_mode not in ("concat", "film"):
+           raise ValueError(f"Unknown conditioning_mode: {self.conditioning_mode}")
 
        # --- cascade & knobs from config (single source of truth) ---
        self.cascade = config.cascade
@@ -67,13 +74,31 @@ class RNN(nn.Module):
        self.top_n_soft = config.top_n_soft
 
 
-       # input projection to RNN model size, split btween content and conditioning parameters
-       lpn = config.inp_proportion * self.hidden_size // (config.inp_proportion + config.cond_proportion)
-       lcn = self.hidden_size - lpn
-       print(f"Latents embedded in {lpn} of the GRU input size of {self.hidden_size}")
-       print(f"Conditioning parameters embedded in {lcn} of the GRU input size of {self.hidden_size}")
-       self.latent_proj = nn.Linear(self.input_size, lpn)
-       self.cond_proj = nn.Linear(self.cond_size, lcn)
+       # Input projection to RNN model size.
+       # concat: [latent_proj, cond_proj] -> cat
+       # film: latent_proj -> FiLM(cond)
+       if self.conditioning_mode == "concat":
+           denom = config.inp_proportion + config.cond_proportion
+           if denom <= 0:
+               raise ValueError("inp_proportion + cond_proportion must be > 0")
+           lpn = config.inp_proportion * self.hidden_size // denom
+           lcn = self.hidden_size - lpn
+           print(f"Latents embedded in {lpn} of the GRU input size of {self.hidden_size}")
+           print(f"Conditioning parameters embedded in {lcn} of the GRU input size of {self.hidden_size}")
+           self.latent_proj = nn.Linear(self.input_size, lpn)
+           self.cond_proj = nn.Linear(self.cond_size, lcn)
+       else:
+           print(f"Latents embedded in {self.hidden_size} of the GRU input size of {self.hidden_size}")
+           self.latent_proj = nn.Linear(self.input_size, self.hidden_size)
+           self.cond_proj = None
+
+       self.film_proj = None
+       if self.conditioning_mode == "film":
+           if self.cond_size > 0:
+               self.film_proj = nn.Linear(self.cond_size, 2 * self.hidden_size)
+               print("FiLM conditioning enabled on GRU input")
+           else:
+               print("FiLM requested with cond_size=0; using identity modulation")
 
        # GRU backbone
        self.gru = nn.GRU(self.hidden_size, self.hidden_size, self.num_layers, 
@@ -105,6 +130,13 @@ class RNN(nn.Module):
                nn.init.xavier_uniform_(param)
            elif "bias" in name:
                nn.init.constant_(param, 0.0)
+
+   def _apply_film(self, x: torch.Tensor, cond: torch.Tensor) -> torch.Tensor:
+       if self.film_proj is None or self.cond_size == 0:
+           return x
+       gamma_beta = self.film_proj(cond)
+       gamma, beta = gamma_beta.chunk(2, dim=-1)
+       return x * (1.0 + gamma) + beta
 
 
    
@@ -140,7 +172,11 @@ class RNN(nn.Module):
         # --- project + GRU ---
         latent_part = input[:, :self.input_size]
         cond_part   = input[:, self.input_size:]
-        h_in = torch.cat([self.latent_proj(latent_part), self.cond_proj(cond_part)], dim=-1)
+        if self.conditioning_mode == "concat":
+            h_in = torch.cat([self.latent_proj(latent_part), self.cond_proj(cond_part)], dim=-1)
+        elif self.conditioning_mode == "film":
+            h_in = self._apply_film(self.latent_proj(latent_part), cond_part)
+       
         h_out, hidden = self.gru(h_in.view(B, 1, -1), hidden)
         h_out = h_out.view(B, -1)
 

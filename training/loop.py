@@ -339,6 +339,7 @@ def create_model(
     codebook_size: int = 1024,
     dropout: float = 0.1,
     cascade_mode: str = "soft",
+    conditioning_mode: str = "concat",
     temperature: float = 1.0,
     top_n: Optional[int] = None,
     tau_soft: float = 0.6,
@@ -356,6 +357,7 @@ def create_model(
         codebook_size: EnCodec codebook size
         dropout: Dropout probability
         cascade_mode: "soft" (deterministic) or "hard" (sampling)
+        conditioning_mode: Input conditioning path ("concat", "film")
         temperature: Temperature for hard cascade sampling
         top_n: Top-k restriction for sampling (None = no restriction)
         tau_soft: Temperature for soft cascade mode
@@ -366,6 +368,12 @@ def create_model(
     """
     if device is None:
         device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+
+    valid_conditioning_modes = {"concat", "film"}
+    if conditioning_mode not in valid_conditioning_modes:
+        raise ValueError(
+            f"conditioning_mode must be one of {sorted(valid_conditioning_modes)}, got: {conditioning_mode!r}"
+        )
     
     # Create model configuration with cascade parameters
     model_config = GRUModelConfig(
@@ -376,6 +384,7 @@ def create_model(
         codebook_size=codebook_size,
         dropout=dropout,
         n_q=n_q,
+        conditioning_mode=conditioning_mode,
         # Cascade configuration
         cascade=cascade_mode,
         temperature_hard=temperature,
@@ -396,6 +405,7 @@ def create_model(
     print(f"    Hidden size: {hidden_size}")
     print(f"    Layers: {num_layers}")
     print(f"    Codebooks: {n_q}")
+    print(f"    Conditioning mode: {conditioning_mode}")
     print(f"    Cascade mode: {cascade_mode}")
     if cascade_mode == "hard":
         print(f"    Temperature: {temperature}")
@@ -691,6 +701,7 @@ def train_model(
     hidden_size: int = 128,
     num_layers: int = 3,
     cascade_mode: str = "soft",
+    conditioning_mode: str = "concat",
     temperature: float = 1.0,
     top_n: Optional[int] = None,
     tau_soft: float = 0.6,
@@ -725,6 +736,7 @@ def train_model(
         hidden_size: Hidden layer size
         num_layers: Number of GRU layers
         cascade_mode: "soft" (deterministic, RNG-free) or "hard" (sampling-based)
+        conditioning_mode: Input conditioning path ("concat", "film")
         temperature: Temperature for hard cascade sampling (only used if cascade_mode="hard")
         top_n: Top-k restriction for hard sampling (None = no restriction)
         tau_soft: Temperature for soft cascade mode (only used if cascade_mode="soft")
@@ -834,6 +846,7 @@ def train_model(
         num_layers=num_layers,
         dropout=kwargs.get('dropout', 0.1),
         cascade_mode=cascade_mode,
+        conditioning_mode=conditioning_mode,
         temperature=temperature,
         top_n=top_n,
         tau_soft=tau_soft,
