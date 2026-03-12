@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "fps": 75,
+  "feature_names": [
+    "class_C",
+    "class_C#",
+    "class_D",
+    "class_D#",
+    "class_E",
+    "class_F",
+    "class_F#",
+    "class_G",
+    "class_G#",
+    "class_A",
+    "class_A#",
+    "class_B"
+  ],
+  "features": {
+    "class_C": {
+      "type": "binary",
+      "source_parameter": "class",
+      "class_name": "C",
+      "unit": "probability",
+      "description": "One-hot encoding for class class 'C'"
+    },
+    "class_C#": {
+      "type": "binary",
+      "source_parameter": "class",
+      "class_name": "C#",
+      "unit": "probability",
+      "description": "One-hot encoding for class class 'C#'"
+    },
+    "class_D": {
+      "type": "binary",
+      "source_parameter": "class",
+      "class_name": "D",
+      "unit": "probability",
+      "description": "One-hot encoding for class class 'D'"
+    },
+    "class_D#": {
+      "type": "binary",
+      "source_parameter": "class",
+      "class_name": "D#",
+      "unit": "probability",
+      "description": "One-hot encoding for class class 'D#'"
+    },
+    "class_E": {
+      "type": "binary",
+      "source_parameter": "class",
+      "class_name": "E",
+      "unit": "probability",
+      "description": "One-hot encoding for class class 'E'"
+    },
+    "class_F": {
+      "type": "binary",
+      "source_parameter": "class",
+      "class_name": "F",
+      "unit": "probability",
+      "description": "One-hot encoding for class class 'F'"
+    },
+    "class_F#": {
+      "type": "binary",
+      "source_parameter": "class",
+      "class_name": "F#",
+      "unit": "probability",
+      "description": "One-hot encoding for class class 'F#'"
+    },
+    "class_G": {
+      "type": "binary",
+      "source_parameter": "class",
+      "class_name": "G",
+      "unit": "probability",
+      "description": "One-hot encoding for class class 'G'"
+    },
+    "class_G#": {
+      "type": "binary",
+      "source_parameter": "class",
+      "class_name": "G#",
+      "unit": "probability",
+      "description": "One-hot encoding for class class 'G#'"
+    },
+    "class_A": {
+      "type": "binary",
+      "source_parameter": "class",
+      "class_name": "A",
+      "unit": "probability",
+      "description": "One-hot encoding for class class 'A'"
+    },
+    "class_A#": {
+      "type": "binary",
+      "source_parameter": "class",
+      "class_name": "A#",
+      "unit": "probability",
+      "description": "One-hot encoding for class class 'A#'"
+    },
+    "class_B": {
+      "type": "binary",
+      "source_parameter": "class",
+      "class_name": "B",
+      "unit": "probability",
+      "description": "One-hot encoding for class class 'B'"
+    }
+  },
+  "num_features": 12
+}
