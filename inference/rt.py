@@ -435,13 +435,24 @@ def create_realtime_synth(
         param_scaler=scaler  # Pass the scaler
     )
     
-    # Create custom UI (no generator selector, proper readouts)
-    synth, ui = build_rnencodec_ui(
-        rt_player,
-        samplerate=output_samplerate,
-        blocksize=BUFFERSIZE * 2,
-        channels=1
-    )
+        # Create custom UI — may fail if no audio device is available
+    try:
+        synth, ui = build_rnencodec_ui(
+            rt_player,
+            samplerate=output_samplerate,
+            blocksize=BUFFERSIZE * 2,
+            channels=1
+        )
+    except Exception as e:
+        rt_player.close()
+        raise RuntimeError(
+            f"Could not open audio output device: {e}\n\n"
+            "This usually means no sound card is available (headless server, WSL, etc.).\n"
+            "Use mode='offline' instead to generate audio without a sound device:\n\n"
+            "  audio = run_inference(model_dir=..., mode='offline', offline_duration=5.0,\n"
+            "                        offline_params={'rainfall_rate': 70.0, 'drop_diameter': 3.0})\n"
+            "  IPython.display.Audio(audio, rate=24000)"
+        ) from e
     
     print("\n✓ Real-time synthesizer ready!")
     print("  Use the GUI to control parameters and generate audio in real-time.")
@@ -482,6 +493,7 @@ def generate_offline(
         # Use provided sequence
         print(f"Using provided conditioning sequence: {conditioning_sequence.shape}")
         cond_seq = conditioning_sequence
+        num_frames = cond_seq.shape[0]
     else:
         # Create constant conditioning from param_values
         num_frames = int(duration * FRAME_RATE)
@@ -502,11 +514,23 @@ def generate_offline(
             unit = scaler.get_unit(name)
             print(f"  - {name}: {real_val:.2f} {unit}")
     
+    # Generate audio hop-by-hop (the model expects hop-sized chunks, not the full sequence)
+    hopsize = rnngen.hopsize
+    audio_chunks = []
+
     # Generate audio
     start = time.perf_counter()
-    generated_audio = rnngen.getNextAudioHop(cond_seq.to(device))
+
+    for frame_start in range(0, num_frames, hopsize):
+        frame_end = min(frame_start + hopsize, num_frames)
+        hop = frame_end - frame_start
+        chunk_params = cond_seq[frame_start:frame_end].to(device)
+        audio_chunk = rnngen.getNextAudioHop(chunk_params, hop=hop)
+        audio_chunks.append(audio_chunk)
+
     elapsed = time.perf_counter() - start
     
+    generated_audio = np.concatenate(audio_chunks)
     duration_sec = generated_audio.shape[0] / SR
     print(f"\nGeneration complete!")
     print(f"  - Audio duration: {duration_sec:.2f}s")
