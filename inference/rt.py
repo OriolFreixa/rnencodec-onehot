@@ -565,6 +565,7 @@ def run_inference(
     initial_values: Optional[Dict[str, float]] = None,
     offline_duration: float = 10.0,
     offline_params: Optional[Dict[str, float]] = None,
+    conditioning_sequence: Optional[torch.Tensor] = None,
     chunksize: int = 20,
     hopsize: int = 8
 ):
@@ -593,6 +594,9 @@ def run_inference(
         initial_values: For realtime: dict of parameter_name -> initial_real_value
         offline_duration: For offline: duration in seconds
         offline_params: For offline: dict of parameter_name -> constant_real_value
+        conditioning_sequence: For offline: tensor of shape (num_frames, num_features)
+                              with time-varying conditioning values. If provided,
+                              it overrides offline_duration and offline_params.
         chunksize: Chunk size for generation (default: 20)
         hopsize: Hop size for generation (default: 8)
     
@@ -653,6 +657,8 @@ def run_inference(
     scaler = ParameterScaler(conditioning_config)
     
     if mode == "realtime":
+        if conditioning_sequence is not None:
+            raise ValueError("conditioning_sequence is only supported when mode='offline'")
         # Create and return real-time synth
         return create_realtime_synth(
             rnngen=rnngen,
@@ -669,6 +675,7 @@ def run_inference(
         audio = generate_offline(
             rnngen=rnngen,
             conditioning_config=conditioning_config,
+            conditioning_sequence=conditioning_sequence,
             duration=offline_duration,
             param_values=offline_params
         )
