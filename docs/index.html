@@ -116,7 +116,8 @@
       .card img {
         width: 100%;
         aspect-ratio: 4 / 3;
-        object-fit: cover;
+        object-fit: contain;
+        object-position: center;
         border-radius: 16px;
         border: 1px solid var(--border);
         background: #ebe3d8;
@@ -192,15 +193,16 @@
         <p>
           Every experiment below shows the generated graph from
           <code>quickstart/experiments_output</code> together with its matching
-          audio file. Assets are loaded directly from the repository so the page
-          works when published from <code>docs/</code>.
+          audio file, organized by experiment first and model second. Assets are
+          loaded directly from the repository so the page works when published
+          from <code>docs/</code>.
         </p>
       </section>
 
       <section>
         <div class="section-heading">
-          <h2>Class</h2>
-          <p>Discrete conditioning outputs.</p>
+          <h2>A</h2>
+          <p>All model outputs for the A experiment.</p>
         </div>
         <div class="grid">
           <article class="card">
@@ -209,7 +211,7 @@
               alt="Graph for class A"
             />
             <div class="card-header">
-              <h3>A</h3>
+              <h3>Class</h3>
               <span class="tag">class</span>
             </div>
             <audio controls preload="none">
@@ -226,61 +228,11 @@
 
           <article class="card">
             <img
-              src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_major_scale.png"
-              alt="Graph for class C major scale"
-            />
-            <div class="card-header">
-              <h3>C Major Scale</h3>
-              <span class="tag">class</span>
-            </div>
-            <audio controls preload="none">
-              <source
-                src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_major_scale.wav"
-                type="audio/wav"
-              />
-            </audio>
-            <div class="links">
-              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_major_scale.png">Open graph</a>
-              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_major_scale.wav">Open audio</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <img
-              src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_to_D.png"
-              alt="Graph for class C to D"
-            />
-            <div class="card-header">
-              <h3>C to D</h3>
-              <span class="tag">class</span>
-            </div>
-            <audio controls preload="none">
-              <source
-                src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_to_D.wav"
-                type="audio/wav"
-              />
-            </audio>
-            <div class="links">
-              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_to_D.png">Open graph</a>
-              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_to_D.wav">Open audio</a>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section>
-        <div class="section-heading">
-          <h2>Continuous</h2>
-          <p>Continuous conditioning outputs.</p>
-        </div>
-        <div class="grid">
-          <article class="card">
-            <img
               src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_A.png"
               alt="Graph for continuous A"
             />
             <div class="card-header">
-              <h3>A</h3>
+              <h3>Continuous</h3>
               <span class="tag">cont</span>
             </div>
             <audio controls preload="none">
@@ -297,22 +249,51 @@
 
           <article class="card">
             <img
-              src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C4_A4_C4_glissando.png"
-              alt="Graph for continuous C4 A4 C4 glissando"
+              src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_A.png"
+              alt="Graph for film A"
             />
             <div class="card-header">
-              <h3>C4 A4 C4 Glissando</h3>
-              <span class="tag">cont</span>
+              <h3>Film</h3>
+              <span class="tag">film</span>
             </div>
             <audio controls preload="none">
               <source
-                src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C4_A4_C4_glissando.wav"
+                src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_A.wav"
                 type="audio/wav"
               />
             </audio>
             <div class="links">
-              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C4_A4_C4_glissando.png">Open graph</a>
-              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C4_A4_C4_glissando.wav">Open audio</a>
+              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_A.png">Open graph</a>
+              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_A.wav">Open audio</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-heading">
+          <h2>C Major Scale</h2>
+          <p>All model outputs for the C major scale experiment.</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <img
+              src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_major_scale.png"
+              alt="Graph for class C major scale"
+            />
+            <div class="card-header">
+              <h3>Class</h3>
+              <span class="tag">class</span>
+            </div>
+            <audio controls preload="none">
+              <source
+                src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_major_scale.wav"
+                type="audio/wav"
+              />
+            </audio>
+            <div class="links">
+              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_major_scale.png">Open graph</a>
+              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_major_scale.wav">Open audio</a>
             </div>
           </article>
 
@@ -322,7 +303,7 @@
               alt="Graph for continuous C major scale"
             />
             <div class="card-header">
-              <h3>C Major Scale</h3>
+              <h3>Continuous</h3>
               <span class="tag">cont</span>
             </div>
             <audio controls preload="none">
@@ -339,82 +320,11 @@
 
           <article class="card">
             <img
-              src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C_to_D.png"
-              alt="Graph for continuous C to D"
-            />
-            <div class="card-header">
-              <h3>C to D</h3>
-              <span class="tag">cont</span>
-            </div>
-            <audio controls preload="none">
-              <source
-                src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C_to_D.wav"
-                type="audio/wav"
-              />
-            </audio>
-            <div class="links">
-              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C_to_D.png">Open graph</a>
-              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C_to_D.wav">Open audio</a>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section>
-        <div class="section-heading">
-          <h2>Film</h2>
-          <p>Film conditioning outputs.</p>
-        </div>
-        <div class="grid">
-          <article class="card">
-            <img
-              src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_A.png"
-              alt="Graph for film A"
-            />
-            <div class="card-header">
-              <h3>A</h3>
-              <span class="tag">film</span>
-            </div>
-            <audio controls preload="none">
-              <source
-                src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_A.wav"
-                type="audio/wav"
-              />
-            </audio>
-            <div class="links">
-              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_A.png">Open graph</a>
-              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_A.wav">Open audio</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <img
-              src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_C4_A4_C4_glissando.png"
-              alt="Graph for film C4 A4 C4 glissando"
-            />
-            <div class="card-header">
-              <h3>C4 A4 C4 Glissando</h3>
-              <span class="tag">film</span>
-            </div>
-            <audio controls preload="none">
-              <source
-                src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_C4_A4_C4_glissando.wav"
-                type="audio/wav"
-              />
-            </audio>
-            <div class="links">
-              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_C4_A4_C4_glissando.png">Open graph</a>
-              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_C4_A4_C4_glissando.wav">Open audio</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <img
               src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_C_major_scale.png"
               alt="Graph for film C major scale"
             />
             <div class="card-header">
-              <h3>C Major Scale</h3>
+              <h3>Film</h3>
               <span class="tag">film</span>
             </div>
             <audio controls preload="none">
@@ -428,6 +338,56 @@
               <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_C_major_scale.wav">Open audio</a>
             </div>
           </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-heading">
+          <h2>C to D</h2>
+          <p>All model outputs for the C to D experiment.</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <img
+              src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_to_D.png"
+              alt="Graph for class C to D"
+            />
+            <div class="card-header">
+              <h3>Class</h3>
+              <span class="tag">class</span>
+            </div>
+            <audio controls preload="none">
+              <source
+                src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_to_D.wav"
+                type="audio/wav"
+              />
+            </audio>
+            <div class="links">
+              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_to_D.png">Open graph</a>
+              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/class_C_to_D.wav">Open audio</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img
+              src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C_to_D.png"
+              alt="Graph for continuous C to D"
+            />
+            <div class="card-header">
+              <h3>Continuous</h3>
+              <span class="tag">cont</span>
+            </div>
+            <audio controls preload="none">
+              <source
+                src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C_to_D.wav"
+                type="audio/wav"
+              />
+            </audio>
+            <div class="links">
+              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C_to_D.png">Open graph</a>
+              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C_to_D.wav">Open audio</a>
+            </div>
+          </article>
 
           <article class="card">
             <img
@@ -435,7 +395,7 @@
               alt="Graph for film C to D"
             />
             <div class="card-header">
-              <h3>C to D</h3>
+              <h3>Film</h3>
               <span class="tag">film</span>
             </div>
             <audio controls preload="none">
@@ -447,6 +407,56 @@
             <div class="links">
               <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_C_to_D.png">Open graph</a>
               <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_C_to_D.wav">Open audio</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-heading">
+          <h2>C4 A4 C4 Glissando</h2>
+          <p>Available model outputs for the glissando experiment.</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <img
+              src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C4_A4_C4_glissando.png"
+              alt="Graph for continuous C4 A4 C4 glissando"
+            />
+            <div class="card-header">
+              <h3>Continuous</h3>
+              <span class="tag">cont</span>
+            </div>
+            <audio controls preload="none">
+              <source
+                src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C4_A4_C4_glissando.wav"
+                type="audio/wav"
+              />
+            </audio>
+            <div class="links">
+              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C4_A4_C4_glissando.png">Open graph</a>
+              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/cont_C4_A4_C4_glissando.wav">Open audio</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img
+              src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_C4_A4_C4_glissando.png"
+              alt="Graph for film C4 A4 C4 glissando"
+            />
+            <div class="card-header">
+              <h3>Film</h3>
+              <span class="tag">film</span>
+            </div>
+            <audio controls preload="none">
+              <source
+                src="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_C4_A4_C4_glissando.wav"
+                type="audio/wav"
+              />
+            </audio>
+            <div class="links">
+              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_C4_A4_C4_glissando.png">Open graph</a>
+              <a href="https://raw.githubusercontent.com/OriolFreixa/rnencodec-onehot/main/quickstart/experiments_output/film_C4_A4_C4_glissando.wav">Open audio</a>
             </div>
           </article>
         </div>
